@@ -57,9 +57,11 @@ cd honlnk-skills
 
 ## 收录状态
 
-> 🚧 **仓库刚初始化，技能收录中**——首批技能与编排内容将陆续进入 `skills/`。
+| 技能 | 说明 | 状态 |
+|---|---|---|
+| [`linkseek-usage`](./skills/linkseek-usage/) | linkseek 搜索/抓取 MCP 的使用学说：工具选型三分法（简单同步 / 中等脱手 / 复杂自主多轮）、查询写法、参数手册、空结果诊断应对、异步任务用法（defer / web_research / get_result）、自主实验与技能进化机制 | ✅ 已收录 |
 
-规划中的方向（详见计划文档）：
+规划中的方向：
 
 - `mcp-orchestration`：linkseek × picsense 跨工具编排（联网搜索 + 视觉识别的协作范式）
 - `dev-standards` / `dev-techniques`：开发规范与经验沉淀
