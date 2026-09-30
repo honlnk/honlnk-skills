@@ -70,7 +70,7 @@ picsense 是本地视觉识别 MCP（stdio）。本技能解决四个问题：�
 ## 三、analyze_images 与 session
 
 - `image_sources` 每项自动识别：`https?://` URL / 本地文件路径 / base64
-- URL 是**直传给视觉模型**，picsense 不下载：本地文件和 base64 才校验 5MB 与 jpg/jpeg/png；URL 的大小格式由模型 API 侧把关。图片防盗链（模型侧 403）时兜底：自己 curl 带 Referer 下载到本地，改传文件路径
+- URL 是**直传给视觉模型**，picsense 不下载：本地文件和 base64 才校验 5MB 与 jpg/jpeg/png；URL 的大小格式由模型 API 侧把关。**直传可能被模型侧网关拒绝**——防盗链（模型侧 403）或网关不代抓某些图床域名（实测 2026-10-01：upload.wikimedia.org 被 vibebabo 网关拒绝）。出现这类拒绝**不要反复换 URL 变体重试**（换缩略图尺寸等大概率仍被拒），直接走兜底：curl 带 UA 和 Referer 下载到本地，改传文件路径（实测有效；注意 Wikimedia 缩略图服务对小于目标宽度的原图会返回错误页，拿不准就直接下原图）
 - session 多轮：首次调用返回 `session_id`；之后只传 `session_id` + prompt 续问。**后续轮不能再追加新图**（传了 `image_sources` 也被忽略），多图必须在首轮一次传齐
 - session 有效期 24 小时、纯内存态（MCP 进程重启全部丢失）；报 `Session not found` 就是过期或重启了，重新首发即可
 - 批量/对比：`image_sources` 数组一次传多张，prompt 里说明任务（如"对比第一张和第二张的差异"）
