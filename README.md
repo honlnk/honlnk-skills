@@ -60,10 +60,11 @@ cd honlnk-skills
 | 技能 | 说明 | 状态 |
 |---|---|---|
 | [`linkseek-usage`](./skills/linkseek-usage/) | linkseek 搜索/抓取 MCP 的使用学说：工具选型三分法（简单同步 / 中等脱手 / 复杂自主多轮）、查询写法、参数手册、空结果诊断应对、异步任务用法（defer / web_research / get_result）、自主实验与技能进化机制 | ✅ 已收录 |
+| [`picsense-usage`](./skills/picsense-usage/) | picsense 图片/视频/文档识别 MCP 的使用学说：核心讲「怎么读一篇带图片链接的文章」（linkseek 抓取或用户直给）——图片 URL 三种形态与修正、analyze_document 全文标注（含混 HTML 误判自救）、analyze_images 单图任务性深读、session 多轮迭代、analyze_video 抽帧 | ✅ 已收录 |
 
 规划中的方向：
 
-- `mcp-orchestration`：linkseek × picsense 跨工具编排（联网搜索 + 视觉识别的协作范式）
+- ~~`mcp-orchestration`：linkseek × picsense 跨工具编排~~ → 2026-10 定位收窄，由 `picsense-usage` 覆盖（核心链路「linkseek 抓正文 → picsense 识图」已内置其中）
 - `dev-standards` / `dev-techniques`：开发规范与经验沉淀
 - 更多个人工作流
 
