@@ -54,8 +54,8 @@ linkseek 是云端商业引擎优先、本地 SearXNG 兜底的自托管搜索 +
 | `language` | **默认不传。** 实测显式传 zh-CN 会把空结果率从 ~8% 拉到 ~32%（部分引擎收窄召回）。SearXNG 按查询内容自动处理语言。 |
 | `categories` | 技术问题传 `it`；学术论文 `science`；新闻 `news`。不确定就不传。 |
 | `preferred_sites` | 想优先某些站点时传域名数组，如 `["github.com", "docs.anthropic.com"]`。比 site: 运算符可靠。 |
-| `timeRange` | 要最新内容传 `month` 或 `day`（没有 week）。 |
-| `engines` | 一般不传。传了 = 强制走本地 SearXNG 指定引擎（跳过云端商业引擎）；仅在明确要本地特定引擎时使用。 |
+| `timeRange` | 要最新内容传 `month` 或 `day`；`week` 仅 B 站等视频类引擎支持（见第六节），general 引擎传 `week` 会被整体跳过、召回变窄，通用时效过滤别用它。 |
+| `engines` | 一般不传。传了 = 强制走本地 SearXNG 指定引擎（跳过云端商业引擎）；搜 B 站视频传 `bilibili`（见第六节），其余仅在明确要本地特定引擎时使用。 |
 | `maxResults` / `fetchCount` | 默认 10 / 3 够用；调研类任务可放宽到 15-20 / 5。 |
 | `defer` | 四个慢工具（`web_search_and_fetch` / `web_search_answer` / `web_fetch_answer` / `web_fetch_render`）可用：传 `true` 立即返回 taskId，不阻塞等待。用法见第五节。 |
 
@@ -112,14 +112,27 @@ linkseek 默认**云端商业引擎优先**（Devin/Exa、DeepSeek、Brave 等�
 
 与内置 WebSearch 的关系：linkseek 本身已是云端质量搜索，引擎侧故障（云端+本地都空）时才换宿主内置 WebSearch（依赖特定宿主环境）。仍不要同轮并行对冲——先走完第四节流程再切换。
 
+### B 站视频搜索（v0.4.0+）
+
+三个入口，按需求选：
+
+| 需求 | 入口 |
+|---|---|
+| 只搜 B 站（最常用） | `web_search(query, engines="bilibili")`，结果带「作者: UP 主 ｜ 发布: 日期」行 |
+| 限定一周内发布的视频 | 在上者基础上加 `timeRange="week"`（week 仅视频类引擎支持） |
+| 泛视频检索（不限 B 站） | `web_search(query, categories="videos")`，聚合所有已启用的视频类引擎 |
+
+适用场景：查教程 / 评测 / 演示类内容，或需要发布时间与 UP 主信息辅助判断时。注意两点：B 站结果没有文字摘要，标题 + 作者/发布时间是主要判断依据；要视频页面内容时对结果 URL 用 `web_fetch` 抓取（SPA 页面抓不到正文就换 `web_fetch_render`）。
+
 ## 七、已知边界
 
-- 图片/视频检索：`categories=images|videos`，摘要质量一般，重要任务建议用专门的视觉工具直接分析图片
+- 图片/视频检索：`categories=images|videos`；视频类里 B 站质量最好（`engines="bilibili"` 直查，带作者/发布时间），图片摘要质量一般，重要任务建议用专门的视觉工具直接分析图片
 - 抓取遇 403/429/空正文：换 `web_fetch_render`（Playwright 渲染）
 - 搜索结果偶有低质页面混入（威客站/登录页）：引用前扫一眼 URL 域名是否与查询主题切题
 - 异步任务为内存态：服务重启即丢（`get_result` 会明确告知「不存在」），完成结果 60 分钟过期
 - 本技能对应的空结果诊断格式依赖 linkseek 2026-09-28 之后部署的版本；异步任务系统依赖 2026-09-29 之后部署的版本（`defer` / `web_research` / `get_result` 不存在说明服务端未更新）
 - 云端优先默认路径依赖 2026-11-06 之后发布的 linkseek 版本；更早版本默认 SearXNG 优先、`provider='cloud'` 手动切云端。对着旧版服务时：常规查询可主动传 `provider='cloud'` 提质，其余流程不变
+- B 站搜索（`engines="bilibili"`、`timeRange="week"`、结果带作者/发布时间）依赖 linkseek v0.4.0（2026-11-06）之后的部署；旧版本引擎未启用，传 `bilibili` 得到空结果属预期
 - 本技能创建于 2026-09-28，用法尚未经过大量真实使用验证，存在过时或错误的可能——这正是第八节存在的原因
 
 ## 八、自主实验与技能进化
