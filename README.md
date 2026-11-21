@@ -63,6 +63,7 @@ cd honlnk-skills
 | [`picsense-usage`](./skills/picsense-usage/) | picsense 图片/视频/文档识别 MCP 的使用学说：核心讲「怎么读一篇带图片链接的文章」（linkseek 抓取或用户直给）——图片 URL 三种形态与修正、analyze_document 全文标注（含混 HTML 误判自救）、analyze_images 单图任务性深读、session 多轮迭代、analyze_video 抽帧 | ✅ 已收录 |
 | [`documentation-style`](./skills/documentation-style/) | 中文文档写作与表达规范：面向读者讲业务，避免源码导读、不必要英文和代码变量名；普通正文不留编辑痕迹，独立修改记录照常保留与追加；结构化内容采用 Mermaid、Markdown 表格等正式格式，不用字符画模拟图形 | ✅ 已收录 |
 | [`plan-execute`](./skills/plan-execute/) | 规范化「计划 → 执行 → 验收」的开发工作模式：计划定稿检查单、阶段门禁、偏差当场记录，任务完毕必须向用户口头汇报哪些内容未按计划实现及原因——文档是写给 AI 的永久记忆，聊天窗口才是给用户看的 | ✅ 已收录 |
+| [`ego-browser-usage`](./skills/ego-browser-usage/) | Ego Lite（ego-browser）AI 浏览器的实战经验层：与官方 ego-browser skill 的关系、工具使用边界、taskSpace 生命周期与 SPA 空快照等踩坑记录、站点实测经验索引（BOSS 直聘，含批量抓取方案） | ✅ 已收录 |
 
 规划中的方向：
 
